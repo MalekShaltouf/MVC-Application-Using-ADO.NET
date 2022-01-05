@@ -1,0 +1,38 @@
+﻿@using DataAccess.Models
+@model Employee
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.ID)
+<section class="container" style="margin-top:15px">
+    <div class="form-group">
+        @Html.Label("First Name")
+        @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Last Name")
+        @Html.TextBoxFor(model => model.LastName, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Gender")
+        @Html.TextBoxFor(model => model.Gender, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Salary")
+        @Html.TextBoxFor(model => model.Salary, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">save</button>
+    </div>
+    <div style="margin-top:15px">
+        @Html.ValidationMessage("validation-error", new { @class = "text-danger" })
+    </div>
+</section>
+}

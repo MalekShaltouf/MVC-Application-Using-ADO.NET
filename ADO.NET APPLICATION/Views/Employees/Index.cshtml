@@ -1,0 +1,67 @@
+﻿@using DataAccess.Models
+@model List<Employee>
+@{
+    ViewBag.Title = "Index";
+}
+@Html.Hidden("currentId")
+<section class="container">
+    <div style="margin-top:15px">
+        @Html.ActionLink("Create", "Create", "Employees", new { @class = "btn btn-info" })
+    </div>
+    <div style="margin-top:15px">
+        <table class="table">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Salary</th>
+                <th></th>
+                <th></th>
+            </tr>
+            @foreach (Employee employee in Model)
+            {
+                <tr>
+                    <td>@employee.FirstName</td>
+                    <td>@employee.LastName</td>
+                    <td>@employee.Gender</td>
+                    <td>@employee.Salary</td>
+                    <td>@Html.ActionLink("Edit", "Edit", "Employees", new { id = employee.ID }, new { @class = "btn btn-success" })</td>
+                    <td><button data-id="@(employee.ID)" type="button" class="btn btn-danger" onclick="DeleteWarning(this)">Delete</button></td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div style="margin-top:15px">
+        @Html.ValidationMessage("validation-error", new { @class = "text-danger" })
+    </div>
+</section>
+
+@section scripts{
+    <script>
+        function DeleteWarning(event)
+        {
+            let currentId = event.getAttribute("data-id");
+            $("#currentId").val(currentId);
+            showNotification("WARNING", "Are you sure to delete this item?");
+        }
+        $("#yes-button").click(function (event)
+        {
+            let currentId = $("#currentId").val();
+            $.ajax({
+                url: "@Url.Action("Delete","Employees")",
+                type: "POST",
+                data: { Id: currentId},
+                success: function (response)
+                {
+                    if (response == "SUCCESS") {
+                        window.location.href = "/Employees/Index";
+                    }
+                    else
+                    {
+                        showNotification("ERROR", response);
+                    }
+                }
+            });
+        });
+    </script>
+}
